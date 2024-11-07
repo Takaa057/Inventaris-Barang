@@ -13,7 +13,7 @@ class LokasiController extends Controller
      */
     public function index()
     {
-        $lokasi = Lokasi::all();
+        $lokasi = Lokasi::latest()->get();
         return view('admin.lokasi.index',compact('lokasi'));
     }
 
@@ -31,7 +31,7 @@ class LokasiController extends Controller
     public function store(LokasiRequest $request)
     {
         $lokasi = new Lokasi();
-        $lokasi->insert($request->validated());
+        $lokasi->create($request->validated());
 
         return redirect()->route('lokasi.index');
     }
@@ -66,9 +66,8 @@ class LokasiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Lokasi $lokasi)
     {
-        $lokasi = Lokasi::find($id);
         $lokasi->delete();
 
         return redirect()->route('lokasi.index');
